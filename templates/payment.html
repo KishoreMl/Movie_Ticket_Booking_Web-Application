@@ -1,0 +1,95 @@
+{% load static%}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+    </div>
+
+    <div class="payment">
+        <form action="paymentOTP" method="POST">
+            {% csrf_token %}
+            <h2>Card Details</h2>
+            <input type="text" name="cardNo" placeholder="Card Number">
+            <br>   
+            <input type="text" name="name" placeholder="Name on the Card">
+           <br>     
+            <input type="text" id="small" name="month" placeholder="MM">
+            <input type="text" id="small" name="year" placeholder="YY">
+            <br>
+            <input type="password" name="ccv" placeholder="CCV">
+           <br>
+            <input type="text" name="movie" value="{{movie.movieName}}" hidden>
+            <input type="text" name="ticketId" value="{{ticket.ticketId}}" hidden>
+            <input type="text" name="userid" value="{{userid}}" hidden>
+
+            <button type="submit" value="submit">Make Payment</button>
+
+        </form>
+        <center>
+            {%if messages%}
+            {%for m in messages%}
+            <p>{{m}}</p>
+            {%endfor%}
+            {%endif%}
+
+        </center>
+    </div>
+
+    <div class="summary">
+        <h4>ORDER SUMMARY</h4>
+        
+        {% if platinum%}
+        <p><b>PLATINUM</b>-
+            {% for p in platinum%}
+            <span>{{p}}</span>
+            {% endfor %}
+        </p>
+        {%endif%}
+        
+        
+        {% if gold%}
+        <p><b>GOLD</b>-
+            {% for g in gold%}
+            <span>{{g}}</span>
+            {% endfor %}
+        </p>
+        {%endif%}
+        
+        {% if silver%}
+        <p><b>SILVER</b>-
+            {% for s in silver%}
+            <span>{{s}}</span>
+            {% endfor %}
+        </p>
+        {%endif%}
+        <p>({{ticket.totalTickets}} Tickets)</p>
+        <p><b>Convenience fees</b> <span>{{ticket.confee}}</span> </p>
+        <hr>
+        <br>
+        <p><b>Sub Total:</b> <span>Rs.{{ticket.subtotal}}</span></p>
+        <p><b>Amount Payable:</b> <span>Rs.{{ticket.total}}</span></p>
+        <p><b>Total:</b> <span>Rs.{{ticket.total}}</span></p>
+        <hr>
+        <p>By proceeding, I express my consent to complete this transaction</p>
+
+        
+    </div>
+
+    
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+{% load static%}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body style="background:black">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+
+        <div class="search">
+            <form method="POST" action="search">
+                {%csrf_token%}
+                <input type="text" name="movie" placeholder="Search movies">
+                <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="navBar">
+        <ul>
+            <a href="home?userid={{userid}}"><li>Home</li></a>
+            <a href="movies?userid={{userid}}"><li>Movies</li></a>
+            <a href="/"><li>Logout</li></a>
+        </ul>
+    </div>
+
+  <center><h2 class="success">Your Booking has confirmed</h2></center>  
+    <center>
+    <div class="ticket">
+        <div class="ticket-img">
+            <img src="{{movie.image.url}}">
+        </div>
+        
+        <h2>{{movie.movieName}} ({{movie.certification}})</h2>
+        <p>{{movie.language}},  {{movie.print}}</p>
+        <p>{{ticket.theatreName}},{{ticket.location}}</p>
+        
+
+        <p>
+            {% if platinum%}
+            <p ><b>PLATINUM</b>-
+                {% for p in platinum%}
+                <span>{{p}}</span>
+                {% endfor %}
+            </p>
+            {%endif%}
+            
+            
+            {% if gold%}
+            <p ><b>GOLD</b>-
+                {% for g in gold%}
+                <span>{{g}}</span>
+                {% endfor %}
+            </p>
+            {%endif%}
+            
+            {% if silver%}
+            <p><b>SILVER</b>-
+                {% for s in silver%}
+                <span>{{s}}</span>
+                {% endfor %}
+            </p>
+            {%endif%}
+        </p>
+        <p>Date:{{ticket.date}},{{year}}</p>
+        <p>{{ticket.time}}</p>
+        <p>Total Price: Rs.{{ticket.total}}</p>
+
+        <img id="water"src="{% static 'Images/logo.png' %}">
+        <img id="booked" src="{% static 'Images/booked.png' %}">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+        <div class="dot3"></div>
+        <div class="dot4"></div>
+        <div class="dot5"></div>
+        <div class="dot6"></div>
+        <div class="dot7"></div>
+        
+    </div>
+    </center>
+
+    <div class="bottom">
+    
+        <center>
+            <h2>Multiplex.com</h2>
+        </center>
+        <center>
+            <div class="icons">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-reddit"></i>
+            </div>
+        </center>
+        <center>
+            <h3> Copyrights.All rights reserved</h3>
+        </center>
+    
+    </div>
+
+</body>
+</html>

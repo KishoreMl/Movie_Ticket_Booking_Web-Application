@@ -1,0 +1,269 @@
+{% load static%}
+<!DOCTYPE html>
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+    <body style="background:white">
+        <div class="header">
+            <img src="{% static 'Images/logo.png' %}">
+            <h1>Multiplex.com</h1>
+        
+            <div class="search">
+                <form method="POST" action="search">
+                    {%csrf_token%}
+                    <input type="text" name="movie" placeholder="Search movies">
+                    <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="movieBar">
+            <h2>{{movie}}</h2>
+            <span>U/A</span>
+            <span>{{theatre.theatreName}},{{theatre.location}}</span>
+            <span><i class="far fa-clock"></i>{{time}}</span>
+
+            <div class="legend">
+                Sold<button id="sold">0</button>
+                Available<button>0</button>
+                Selected<button id="selected">0</button>
+            </div>
+            
+            <button class="book" type="submit" form="book">
+                Book Tickets
+            </button>
+
+
+        </div>
+
+        <div class="Seats">
+            <div class="left">
+               {% for i in seats %}
+               
+                {% if i.rowId == "A"%}
+                <p class="seattype">Platinum Rs.150</p>
+                {% elif i.rowId == "D"%}
+                <p class="seattype">Gold Rs.100</p>
+                {% elif i.rowId == "M"%}
+                <p class="seattype">Silver Rs.70</p>
+                {% endif%}
+
+                <p class="rowid">{{i.rowId}}</p>
+                <div class="seatrow">
+                    
+                    {% if i.Seat1 == "available"%}
+                    <button class="seat {{i.rowId}}1" seatId="{{i.rowId}}1">1</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}1" seatId="{{i.rowId}}1" id="sold">1</button>
+                    {%endif%}
+
+                    {% if i.Seat2 == "available"%}
+                    <button class="seat {{i.rowId}}2" seatId="{{i.rowId}}2">2</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}2" seatId="{{i.rowId}}2" id="sold">2</button>
+                    {%endif%}
+
+                    {% if i.Seat3 == "available"%}
+                    <button class="seat {{i.rowId}}3" seatId="{{i.rowId}}3">3</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}3" seatId="{{i.rowId}}3" id="sold">3</button>
+                    {%endif%}
+
+                    {% if i.Seat4 == "available"%}
+                    <button class="seat {{i.rowId}}4" seatId="{{i.rowId}}4">4</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}4" seatId="{{i.rowId}}4" id="sold">4</button>
+                    {%endif%}
+
+                    {% if i.Seat5 == "available"%}
+                    <button class="seat {{i.rowId}}5" seatId="{{i.rowId}}5">5</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}5" seatId="{{i.rowId}}5" id="sold">5</button>
+                    {%endif%}
+
+                    {% if i.Seat6 == "available"%}
+                    <button class="seat {{i.rowId}}6" seatId="{{i.rowId}}6">6</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}6" seatId="{{i.rowId}}6" id="sold">6</button>
+                    {%endif%}
+
+                    {% if i.Seat7 == "available"%}
+                    <button class="seat {{i.rowId}}7" seatId="{{i.rowId}}7">7</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}7" seatId="{{i.rowId}}7" id="sold">7</button>
+                    {%endif%}
+
+                    {% if i.Seat8 == "available"%}
+                    <button class="seat {{i.rowId}}8" seatId="{{i.rowId}}8">8</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}8" seatId="{{i.rowId}}8" id="sold">8</button>
+                    {%endif%}
+
+                    {% if i.Seat9 == "available"%}
+                    <button class="seat {{i.rowId}}9" seatId="{{i.rowId}}9">9</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}9" seatId="{{i.rowId}}9" id="sold">9</button>
+                    {%endif%}
+
+                    {% if i.Seat10 == "available"%}
+                    <button class="seat {{i.rowId}}10" seatId="{{i.rowId}}10">10</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}10" seatId="{{i.rowId}}10" id="sold">10</button>
+                    {%endif%}
+
+                    
+                    
+                </div>
+               
+                {%if i.rowId == "C" or i.rowId == "L"%}
+                <hr><br>
+                {%endif%}
+
+                
+                {% endfor %}
+            </div>
+            <div class="right">
+                
+                {% for i in seats %}
+
+                <div class="seatrow">
+                
+                    {% if i.Seat11 == "available"%}
+                    <button class="seat {{i.rowId}}11" seatId="{{i.rowId}}11">11</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}11" seatId="{{i.rowId}}11" id="sold">11</button>
+                    {%endif%}
+                    
+                    {% if i.Seat12 == "available"%}
+                    <button class="seat {{i.rowId}}12" seatId="{{i.rowId}}12">12</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}12" seatId="{{i.rowId}}12" id="sold">12</button>
+                    {%endif%}
+                    
+                    {% if i.Seat13 == "available"%}
+                    <button class="seat {{i.rowId}}13" seatId="{{i.rowId}}13">13</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}13" seatId="{{i.rowId}}13" id="sold">13</button>
+                    {%endif%}
+                    
+                    {% if i.Seat14 == "available"%}
+                    <button class="seat {{i.rowId}}14" seatId="{{i.rowId}}14">14</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}14" seatId="{{i.rowId}}14" id="sold">14</button>
+                    {%endif%}
+                    
+                    {% if i.Seat15 == "available"%}
+                    <button class="seat {{i.rowId}}15" seatId="{{i.rowId}}15">15</button>
+                    {% else %}
+                    <button class="booked {{i.rowId}}15" seatId="{{i.rowId}}15" id="sold">15</button>
+                    {%endif%}
+                    
+                    {% if i.Seat16 == "available"%}
+                    <button class="seat {{i.rowId}}16" seatId="{{i.rowId}}16">16</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}16" seatId="{{i.rowId}}16" id="sold">16</button>
+                    {%endif%}
+                    
+                    {% if i.Seat17 == "available"%}
+                    <button class="seat {{i.rowId}}17" seatId="{{i.rowId}}17">17</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}17" seatId="{{i.rowId}}17" id="sold">17</button>
+                    {%endif%}
+                    
+                    {% if i.Seat18 == "available"%}
+                    <button class="seat {{i.rowId}}18" seatId="{{i.rowId}}18">18</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}18" seatId="{{i.rowId}}18" id="sold">18</button>
+                    {%endif%}
+                    
+                    {% if i.Seat19 == "available"%}
+                    <button class="seat {{i.rowId}}19" seatId="{{i.rowId}}19">19</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}19" seatId="{{i.rowId}}19" id="sold">19</button>
+                    {%endif%}
+                    
+                    {% if i.Seat20 == "available"%}
+                    <button class="seat {{i.rowId}}20" seatId="{{i.rowId}}20">20</button>
+                    {% else %}
+                    <button class="booked  {{i.rowId}}20" seatId="{{i.rowId}}20" id="sold">20</button>
+                    {%endif%}
+                
+                </div>
+
+                {%if i.rowId == "C" or i.rowId == "L"%}
+                <hr><br>
+                {%endif%}
+
+                {% endfor %}
+            </div>
+        </div>
+        <form id="book" action="bookingSummary" method="POST" style="display:none"> 
+            {%csrf_token%}
+            <input type="text" value="{{theatre.theatreName}} " name="theatre">
+            <input type="text" value="{{time}}" name="time">
+            <input type="text" value="{{movie}}" name="movie">
+            <input type="text" value="{{theatre.location}}" name="location">
+            <input type="text" value="" id="tickets" name="seats">
+            <input type="text" value="{{date}}" name="date">
+            <input type="text" value="{{userid}}" name="userid">
+        </form>
+
+        
+        <script type="text/javascript">
+            const btn = document.querySelectorAll(".seat");
+            var tickets = document.getElementById("tickets");
+            const btns  = Array.from(btn);
+            var selectedSeat = "";
+            var selectedSeats = "";
+            var seatValues = "";
+            
+            btns.forEach(b => {
+
+                
+               b.addEventListener('click',()=>{
+                if(b.classList.contains('selected'))
+                {
+                    b.classList.remove("selected");
+                    b.classList.add("seat");
+                    b.setAttribute("id","available");
+                    
+                    
+                }
+                else{
+                    
+                        b.classList.remove("seat");
+                        b.classList.add("selected");
+                        b.setAttribute("id", "selected");
+                    
+                }
+
+                selectedSeat = document.querySelectorAll(".selected");
+                selectedSeats = Array.from(selectedSeat);
+                seatValues="";
+                selectedSeats.forEach(seat =>{
+
+                    seatValues=seatValues+seat.classList[0]+",";
+                    
+                });
+                tickets.setAttribute("value",seatValues);
+                console.log(tickets.value);
+
+                
+               })
+               
+            });
+
+           
+           
+           
+            
+        </script>
+    </body>
+</html>

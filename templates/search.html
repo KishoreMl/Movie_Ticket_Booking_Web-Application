@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+</head>
+
+<body style="background:white">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+
+        <div class="search">
+            <form method="POST" action="search">
+                {%csrf_token%}
+                <input type="text" name="movie" placeholder="Search movies">
+                <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="navBar">
+        <ul>
+           <a href="home?userid={{userid}}"><li>Home</li></a> 
+            <a href="movies?userid={{userid}}">
+                <li>Movies</li>
+            </a>
+            <a href="/">
+                <li>Logout</li>
+            </a>
+        </ul>
+    </div>
+    
+    
+    
+    {% if movie %}
+    <div class="movdet" style="background-image: url({{movie.coverpic.url}});">
+        <div class="background">
+    
+        </div>
+        <div class="movie1">
+            <img src="{{movie.image.url}}">
+        </div>
+        <form action="theatres" id="theatre" method="POST" style="display: none;">
+            {% csrf_token %}
+            <input type="text" name="userid" value="{{userid}}" hidden>
+        </form>
+        
+        <div class="desc">
+            <h2>{{movie.movieName}}</h2>
+            <span>{{movie.print}}</span>
+            <span>{{movie.language}}</span>
+            <p>{{movie.runtime}}&nbsp &#8226 &nbsp {{movie.genre}} &nbsp &#8226 &nbsp {{movie.certification}} &nbsp &#8226
+                &nbsp {{movie.releasedate}}</p>
+            <p><i></i>{{movie.likes}}% Intrested</p>
+            <button type="submit" form="theatre" name="moviename" value="{{movie.movieName}}">Book Tickets</button>
+        </div>
+    
+    </div>
+    
+    <div class="movdet2">
+        <div class="about">
+            <h2>Plot</h2>
+            <p>
+                {{movie.description}}
+            </p>
+        </div>
+        <hr>
+        <div class="castrow">
+            <h2>Cast</h2>
+            {% for k in cast %}
+            <div class="castImg">
+                <img src="{{k.image.url}}">
+                <b>
+                    <p>{{k.name}}</p>
+                </b>
+                <p style="transform: translateY(-8px); font-size: 0.9rem;">{{k.role}}</p>
+            </div>
+            {% endfor %}
+        
+        </div>
+        
+        <div class="castrow">
+            <h2>Crew</h2>
+            {% for c in crew%}
+            <div class="castImg">
+                <img src="{{c.image.url}}">
+                <b>
+                    <p>{{c.name}}</p>
+                </b>
+                <p style="transform: translateY(-8px); font-size: 0.9rem;">{{c.role}}</p>
+            </div>
+            {% endfor%}
+        </div>
+        {%else%}
+        <div class="searchmsg">
+           <center><h2>Movie not found</h2></center> 
+           <center><img src="{% static 'Images/reel.jpg' %}"></center> 
+        </div>
+        
+        
+    {% endif %}
+    </div>
+
+    <div class="bottom">
+
+        <center><h2>Multiplex.com</h2></center>
+        <center>
+            <div class="icons">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-reddit"></i>
+            </div>
+        </center>
+        <center><h3> Copyrights.All rights reserved</h3></center>
+        
+    </div>
+
+</body>
+</html>    

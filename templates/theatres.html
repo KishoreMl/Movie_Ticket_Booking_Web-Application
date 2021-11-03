@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body style="background:white">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+
+        <div class="search">
+            <form method="POST" action="search">
+                {%csrf_token%}
+                <input type="text" name="movie" placeholder="Search movies">
+                
+                <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="movieBar">
+        <h2>{{movie.movieName}}</h2>
+        <span>{{movie.certification}}</span>
+        <span>{{movie.genre}}</span>
+        <span style="border:none"><i class="far fa-clock"></i>{{movie.runtime}}</span>
+
+        <div class="castbar">
+            {% for i in cast %}
+            <div class="castbox">
+                <img src="{{i.image.url}}">
+                <p>{{i.name}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="dateBar">
+        <button class="date {{day1}},{{month1}}" style="margin-left: 3rem;" id="datechosen" ><p>{{day1}}<br>Today</p></button>
+        <button class="date {{day2}},{{month2}}"><p>{{day2}}<br>{{month2}}</p></button>
+        <button class="date {{day3}},{{month3}}"><p>{{day3}}<br>{{month3}}</p></button>
+        <button class="date {{day4}},{{month4}}"><p>{{day4}}<br>{{month4}}</p></button>
+        <button class="date {{day5}},{{month5}}"><p>{{day5}}<br>{{month5}}</p></button>
+    </button
+
+    <div class="theatreGrid">
+        {% for i in theatre %}
+        <div class="theatreRow">
+            <form id="theatres" method="POST" action="theatrehall" style="display: none;">
+                {% csrf_token %}
+                <input type="text"  name="moviename" value="{{movie.movieName}}">
+                <input type="text" id="date" name="date" value=""> 
+                <input type="text" name="userid" value="{{userid}}" hidden>
+                
+            </form>
+
+            <h4>{{i.theatreName}},{{i.location}}</h4>
+            {% if i.time1 != "00:00" %}
+            <button type="submit" form="theatres" name="theatre" value="{{i.theatreName}},{{i.time1}}">{{i.time1}}</button> 
+            {% endif %}
+
+            {% if i.time2 != "00:00" %}
+            <button type="submit" form="theatres" name="theatre" value="{{i.theatreName}},{{i.time2}}">{{i.time2}}</button>
+            {% endif %}  
+
+            {% if i.time3 != "00:00" %}
+            <button type="submit" form="theatres" name="theatre" value="{{i.theatreName}},{{i.time3}}">{{i.time3}}</button>
+            {% endif %}
+
+            {% if i.time4 != "00:00" %}
+            <button type="submit" form="theatres" name="theatre" value="{{i.theatreName}},{{i.time4}}">{{i.time4}}</button>
+            {% endif %}
+
+            {% if i.time5 != "00:00" %}
+            <button type="submit" form="theatres" name="theatre" value="{{i.theatreName}},{{i.time5}}">{{i.time5}}</button>
+            {% endif %}
+
+        </div>
+        <br><hr>
+        {% endfor %}
+
+        <div class="bottom">
+        
+            <center>
+                <h2>Multiplex.com</h2>
+            </center>
+            <center>
+                <div class="icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-reddit"></i>
+                </div>
+            </center>
+            <center>
+                <h3> Copyrights.All rights reserved</h3>
+            </center>
+        
+        </div>
+    </div>
+
+    
+
+    <script type="text/javascript">
+    
+        const date = document.querySelectorAll(".date");
+        const dates = Array.from(date);
+        var inputDate = document.getElementById("date");
+        var selectedDate = document.getElementById("datechosen");
+        inputDate.setAttribute("value",selectedDate.classList[1]);
+        function remove()
+        {
+            dates.forEach(d =>{
+                d.setAttribute("id","none");
+            })
+        }
+
+        dates.forEach(d => {
+            
+            d.addEventListener('click',() => {
+                remove();
+                d.setAttribute("id","datechosen");
+                
+                inputDate.setAttribute("value", d.classList[1]);
+                console.log(d.classList[1]);
+
+            })
+        });
+    </script>
+
+</body>
+
+</html>

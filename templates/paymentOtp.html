@@ -1,0 +1,66 @@
+{% load static%}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com{{OTP}}</h1>
+        
+        
+    </div>
+
+    
+    <!--Resendind form-->
+    <form id="resend" action="paymentOTP" method="POST" style="display:none">
+        {% csrf_token %}
+        <input type="text" name="cardNo" value="{{cardno}}">
+        <input type="text" name="name" value="{{name}}">
+        <input type="text" name="month" value="{{month}}">
+        <input type="text" name="year" value="{{year}}">
+        <input type="text" name="ccv" value="{{ccv}}">
+        <input type="text" name="userid" value="{{userid}}">
+        <input type="text" name="movie" value="{{movie.movieName}}">
+        <input type="text" name="ticketId" value="{{ticket.ticketId}}">
+    </form>
+
+    
+    <div class="payment1">
+       <center><h2> Enter the OTP </h2></center> 
+        <form action="booked" method="POST">
+            {% csrf_token %}
+            <input type="text" name="otpUser" placeholder="6-Digit OTP">
+            <input type="text" name="otpReal" value="{{OTP}}" hidden>
+            <input type="text" name="movie" value="{{movie.movieName}}" hidden>
+            <input type="text" name="userid" value="{{userid}}" hidden>
+            <input type="text" name="name" value="{{name}}" hidden>
+            <input type="text" name="cardNo" value="{{cardno}}" hidden>
+            <input type="text" name="ticketId" value="{{ticket.ticketId}}" hidden>
+            
+
+            <button type="submit">Enter</button>
+        </form>
+        <button type="submit" form="resend" id="resend1">Resend OTP </button>
+        <center>
+        {%if messages%}
+        {%for m in messages%}
+        <p>{{m}}</p>
+        {%endfor%}
+        {%endif%}
+        </center>
+    </div>
+    
+
+
+</body>

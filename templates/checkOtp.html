@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+</head>
+
+<body style="overflow: hidden; ">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+    </div>
+    <form action="OTP" method="POST" id="resend" style="display: none;">
+        {%csrf_token%}
+        <input type="text" name="userid" value="{{userid}}">
+    </form>
+    <center>
+        <div class="log">
+            <h2>Enter your OTP</h2>
+            <form action="home" method="POST">
+                {%csrf_token%}
+                <input type="password"  placeholder="6-Digit OTP" name="otpUser"><br>
+                <input type="text" value="{{otp}}" name="otpReal" hidden>
+                <input type="text" name="userid" value="{{userid}}" hidden>
+                <button type="submit" value="submit">
+                    Verify OTP
+                </button><br>
+                <button type="submit" class="resend" form="resend" id="resend">Resend OTP</button>
+            </form>
+            {%if messages%}
+            {%for m in messages%}
+            <p>{{m}}</p>
+            {%endfor%}
+            {%endif%}
+        </div>
+    </center>
+
+
+
+</body>
+
+</html>

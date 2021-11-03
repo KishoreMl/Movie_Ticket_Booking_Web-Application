@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+</head>
+
+<body style="background:white">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+
+        <div class="search">
+            <form method="POST" action="search">
+                {%csrf_token%}
+                <input type="text" name="movie" placeholder="Search movies">
+                <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="navBar">
+        <ul>
+            <a href="home?userid={{userid}}">
+                <li>Home</li>
+            </a>
+            <li>Movies</li>
+            <a href="/">
+                <li>Logout</li>
+            </a>
+        </ul>
+    </div>
+
+    <h1> All  Movies</h1>
+    <div class="movRow1 ">
+
+        <form action="movie" id="moviePage" method="POST" style="display:none;">
+            {% csrf_token %}
+            <input type="text" name="userid" value="{{userid}}">
+        </form>
+
+        {% for i in movies %}
+        <div class="movieBox1">
+            <button type="submit" form="moviePage" name="moviename" value="{{i.movieName}}">
+                <div class="movie">
+                    <img src="{{i.image.url}}" alt="">
+                    <div class="submov">
+                        <span>{{i.likes}}</span>
+                        <p>likes</p>
+                    </div>
+                </div>
+            </button>
+            <h4>{{i.movieName}}</h4>
+            <p>{{i.genre}}</p>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    
+
+    <div class="bottom">
+    
+        <center>
+            <h2>Multiplex.com</h2>
+        </center>
+        <center>
+            <div class="icons">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-reddit"></i>
+            </div>
+        </center>
+        <center>
+            <h3> Copyrights.All rights reserved</h3>
+        </center>
+    
+    </div>
+
+
+</body>
+
+</html>

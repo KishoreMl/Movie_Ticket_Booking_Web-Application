@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+    <head>
+        <title>
+                Multiplex.com
+        </title>
+        <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+        <!--Browser tab icon-->
+        <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+        <!--Icon Javascript-->
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+        
+    </head>
+    <body style="overflow: hidden; ">
+        
+        <div class="header">
+            <img src="{% static 'Images/logo.png' %}">
+            <h1>Multiplex.com</h1>
+        </div>
+
+        <center>
+            <div class="log">
+                <h2>Enter your phone number</h2>
+                <form action="OTP" method="POST">
+                    {%csrf_token%}
+                    <input type="text" placeholder="Phone No" name="phno"><br>
+                    <button type="submit" value="submit">
+                        Send OTP
+                    </button>
+                   
+                </form>
+                {%if messages%}
+                {% for m in messages%}
+                <p>{{m}}</p>
+                {%endfor%}
+                {%endif%}
+            </div>
+        </center>
+        
+
+
+    </body>
+
+</html>
+

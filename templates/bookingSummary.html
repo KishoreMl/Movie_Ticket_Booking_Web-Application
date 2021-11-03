@@ -1,0 +1,93 @@
+{% load static%}
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Multiplex.com
+    </title>
+    <link rel="stylesheet" href="{% static 'css/movie.css' %}" type="text/css">
+    <!--Browser tab icon-->
+    <link rel="icon" type="image/icon" href="{% static 'Images/logo.png' %}">
+    <!--Icon Javascript-->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body style="background:rgb(53, 52, 52)">
+
+    <div class="header">
+        <img src="{% static 'Images/logo.png' %}">
+        <h1>Multiplex.com</h1>
+
+        <div class="search">
+            <form method="POST" action="search">
+                {%csrf_token%}
+                <input type="text" name="movie" placeholder="Search movies">
+                <button type="submit" value="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <form action="payment" method="POST" id="booking" style="display: none;">
+        {% csrf_token %}
+        <input type="text" name="movie" value="{{movie.movieName}}">
+        <input type="text" name="ticketId" value="{{ticket.ticketId}}"> 
+        <input type="text" name="userid" value="{{userid}}" hidden>
+    </form>
+
+    <div class="moviePoster">
+        <img src="{{movie.image.url}}">
+        <div class="moviePoster-sub">
+            <div class="movpos-sub">
+                <h3>{{movie.movieName}} ({{movie.certification}})</h3>
+                <p>{{ticket.theatreName}}, {{ticket.location}}</p>
+                <p>{{ticket.time}}</p>        
+            </div>    
+        </div>
+    </div>
+
+    <div class="summary">
+        <h4>BOOKING SUMMARY</h4>
+        
+        {% if platinum%}
+        <p><b>PLATINUM</b>-
+            {% for p in platinum%}
+            <span>{{p}}</span>
+            {% endfor %}
+        </p>
+        {%endif%}
+
+
+        {% if gold%}
+        <p><b>GOLD</b>-
+        {% for g in gold%}
+        <span>{{g}}</span>
+        {% endfor %}
+        </p> 
+        {%endif%}
+
+        {% if silver%}
+        <p><b>SILVER</b>-
+            {% for s in silver%}
+            <span>{{s}}</span>
+            {% endfor %}
+        </p>
+        {%endif%}
+        <p>({{ticket.totalTickets}} Tickets)</p>
+        
+        <p><b>Convenience fees</b> <span>Rs.{{ticket.confee}}</span> </p> 
+        <hr>
+        <br>
+        <p><b>Sub Total</b> <span>Rs.{{ticket.subtotal}}</span></p>
+
+        <p><b>Amount Payable</b> <span>Rs.{{ticket.total}}</span> </p> 
+        <hr>
+        <p>By proceeding, I express my consent to complete this transaction
+            
+        </p>
+
+        <button type="submit" form="booking" >Total:Rs.{{ticket.total}}  Proceed </button>
+    </div>
+
+
+
+</body>    
