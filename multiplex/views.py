@@ -41,10 +41,10 @@ def OTP(request):
             userid = "MPUI"+str(code2)
 
             account_sid="ACa86d57d60692ae495e24922252a1aa50"
-            auth_token="d695dddc5b3d88519769489d2ac3a986"
+            auth_token="d06c16814877911454aeacfad5629ca0"
             myNum="+14195065825"
             client = Client(account_sid,auth_token)
-            client.messages.create(from_=myNum,body="This is OTP for logging in  Multiplex.com",to="+91"+str(phone))
+            client.messages.create(from_=myNum,body="This is OTP "+str(code)+" for logging in  Multiplex.com",to="+91"+str(phone))
 
             user = User.objects.create(userId=userid,phno=phone,name="null",cardno="null",ticketId="null")
             user.save()
@@ -326,16 +326,25 @@ def paymentOTP(request):
         tid = request.POST['ticketId']
         mov = Movie.objects.get(movieName=movie) 
         ticket = TicketTemporary.objects.get(ticketId=tid)
+        user = User.objects.get(userId=userid)
+        ph = user.phno 
         tickets = ticket.seats.split(',')
         gold = []
         platinum = []
         silver = []
         gold,platinum,silver=ticketType(tickets)
+        
+       
        
         if(not(checkCardNumber(cardNo)) or not(checkName(name)) or not(checkMonth(month)) or not(checkYear(year)) or not(checkCCV(ccv)) ):
             messages.info(request,"Invalid card details")
             return render(request,"payment.html",{"ticket":ticket,"movie":mov,"gold":gold,"platinum":platinum,"silver":silver})  
-        else:      
+        else:
+             account_sid="ACa86d57d60692ae495e24922252a1aa50"
+            auth_token="d06c16814877911454aeacfad5629ca0"
+            myNum="+14195065825"
+            client = Client(account_sid,auth_token)
+            client.messages.create(from_=myNum,body="This is your OTP "+str(code),to="+91"+str(ph))
             return render(request,"paymentOtp.html",{"OTP":otp,"movie":mov,"ccv":ccv,"name":name,
             "month":month,"year":year,"cardno":cardNo,"userid":userid,"ticket":ticket})
     else:
@@ -397,10 +406,10 @@ def booked(request):
                 TicketTemporary.objects.filter(ticketId=ticket.ticketId).delete()
 
                 account_sid="ACa86d57d60692ae495e24922252a1aa50"
-                auth_token="d695dddc5b3d88519769489d2ac3a986"
+                auth_token="d06c16814877911454aeacfad5629ca0"
                 myNum="+14195065825"
                 client = Client(account_sid,auth_token)
-                client.messages.create(from_=myNum,body="Hi"+str({{user.name}})+", \n Booking ID:"+str({{user.ticketId}})+", \n Seats"+str({{finalseats}})+"\n "+str({{Tickets.totalTickets}})+"seat(s) for"+str({{movie.moviName}})+str({{movie.certification}})+"on"+str({{Tickets.date}})+str({{Tickets.time}})+"\n at"+str({{Tickets.theatreName}})+","+str({{Tickets.location}})+"\n  Cancellation not available",to="+91"+str(user.phno))
+                client.messages.create(from_=myNum,body="Hi "+str({{user.name}})+", \n Booking ID:"+str({{user.ticketId}})+", \n Seats "+str({{finalseats}})+"\n "+str({{Tickets.totalTickets}})+"seat(s) for"+str({{movie.moviName}})+str({{movie.certification}})+"on"+str({{Tickets.date}})+str({{Tickets.time}})+"\n at"+str({{Tickets.theatreName}})+","+str({{Tickets.location}})+"\n  Cancellation not available",to="+91"+str(user.phno))
                         
                 return render(request,"ticket.html",{"movie":movie,"ticket":Tickets,"gold":gold,"platinum":platinum,"silver":silver,"year":year,"userid":userid})
             else:
